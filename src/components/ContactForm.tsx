@@ -39,19 +39,20 @@ export default function ContactForm() {
     const form = e.currentTarget;
     const data = new FormData(form);
 
-    const name = data.get("name") || "";
-    const phone = data.get("phone") || "";
-    const area = data.get("area") || "";
-    const service = data.get("service") || "";
-    const details = data.get("details") || "-";
+    const name = String(data.get("name") || "");
+    const phone = String(data.get("phone") || "");
+    const area = String(data.get("area") || "");
+    const service = String(data.get("service") || "");
+    const details = String(data.get("details") || "-");
 
-    const text =
-      Home visit request\n +
-      Name: ${name}\n +
-      Phone: ${phone}\n +
-      Area: ${area}\n +
-      Service: ${service}\n +
-      Details: ${details};
+    const text = [
+      "Home visit request",
+      Name: ${name},
+      Phone: ${phone},
+      Area: ${area},
+      Service: ${service},
+      Details: ${details},
+    ].join("\n");
 
     const whatsappUrl =
       https://wa.me/918080882201?text=${encodeURIComponent(text)};
@@ -64,11 +65,7 @@ export default function ContactForm() {
     <form onSubmit={onSubmit} className="form">
       <label>
         Your name
-        <input
-          name="name"
-          required
-          autoComplete="name"
-        />
+        <input name="name" required autoComplete="name" />
       </label>
 
       <label>
@@ -88,7 +85,6 @@ export default function ContactForm() {
           <option value="" disabled>
             Select area
           </option>
-
           {areas.map((area) => (
             <option key={area} value={area}>
               {area}
@@ -103,7 +99,6 @@ export default function ContactForm() {
           <option value="" disabled>
             Select service
           </option>
-
           {services.map((service) => (
             <option key={service} value={service}>
               {service}
@@ -114,16 +109,10 @@ export default function ContactForm() {
 
       <label>
         Details (optional)
-        <textarea
-          name="details"
-          rows={3}
-        />
+        <textarea name="details" rows={3} />
       </label>
 
-      <button
-        className="btn btn-primary"
-        type="submit"
-      >
+      <button className="btn btn-primary" type="submit">
         Request a Home Visit
       </button>
 
