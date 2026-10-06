@@ -45,17 +45,16 @@ export default function ContactForm() {
     const service = String(data.get("service") || "");
     const details = String(data.get("details") || "-");
 
-    const text = [
-      "Home visit request",
-      Name: ${name},
-      Phone: ${phone},
-      Area: ${area},
-      Service: ${service},
-      Details: ${details},
-    ].join("\n");
+    const text =
+      "Home visit request\n" +
+      "Name: " + name + "\n" +
+      "Phone: " + phone + "\n" +
+      "Area: " + area + "\n" +
+      "Service: " + service + "\n" +
+      "Details: " + details;
 
     const whatsappUrl =
-      https://wa.me/918080882201?text=${encodeURIComponent(text)};
+      "https://wa.me/918080882201?text=" + encodeURIComponent(text);
 
     window.open(whatsappUrl, "_blank");
     setSent(true);
@@ -65,7 +64,11 @@ export default function ContactForm() {
     <form onSubmit={onSubmit} className="form">
       <label>
         Your name
-        <input name="name" required autoComplete="name" />
+        <input
+          name="name"
+          required
+          autoComplete="name"
+        />
       </label>
 
       <label>
@@ -85,6 +88,7 @@ export default function ContactForm() {
           <option value="" disabled>
             Select area
           </option>
+
           {areas.map((area) => (
             <option key={area} value={area}>
               {area}
@@ -99,6 +103,7 @@ export default function ContactForm() {
           <option value="" disabled>
             Select service
           </option>
+
           {services.map((service) => (
             <option key={service} value={service}>
               {service}
@@ -109,10 +114,16 @@ export default function ContactForm() {
 
       <label>
         Details (optional)
-        <textarea name="details" rows={3} />
+        <textarea
+          name="details"
+          rows={3}
+        />
       </label>
 
-      <button className="btn btn-primary" type="submit">
+      <button
+        className="btn btn-primary"
+        type="submit"
+      >
         Request a Home Visit
       </button>
 
