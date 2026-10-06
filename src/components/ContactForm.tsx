@@ -1,30 +1,137 @@
 "use client";
-import { useState } from "react";
-import { areas, waLink } from "@/config/site";
-import { services } from "@/data/services";
+
+import { useState, type FormEvent } from "react";
+
+const areas = [
+  "Jogeshwari",
+  "Andheri",
+  "Lokhandwala",
+  "Juhu",
+  "Goregaon",
+  "Malad",
+  "Kandivali",
+  "Vile Parle",
+  "Santa Cruz",
+  "Bandra",
+  "Churchgate",
+  "Other area",
+];
+
+const services = [
+  "Doctor Home Visit",
+  "General Physician Consultation",
+  "Wound Dressing",
+  "Foley Catheterization",
+  "Ryle's Tube Care / Insertion",
+  "IV Cannulation / Medication",
+  "Elderly Care",
+  "Diabetic Care",
+  "Palliative Care",
+  "Not sure",
+];
 
 export default function ContactForm() {
   const [sent, setSent] = useState(false);
-  function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+
+  function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const d = new FormData(e.currentTarget);
-    const text = `Home visit request\nName: ${d.get("name")}\nPhone: ${d.get("phone")}\nArea: ${d.get("area")}\nService: ${d.get("service")}\nDetails: ${d.get("details") || "-"}`;
-    window.open(waLink(text), "_blank", "noopener");
+
+    const form = e.currentTarget;
+    const data = new FormData(form);
+
+    const name = data.get("name") || "";
+    const phone = data.get("phone") || "";
+    const area = data.get("area") || "";
+    const service = data.get("service") || "";
+    const details = data.get("details") || "-";
+
+    const text =
+      Home visit request\n +
+      Name: ${name}\n +
+      Phone: ${phone}\n +
+      Area: ${area}\n +
+      Service: ${service}\n +
+      Details: ${details};
+
+    const whatsappUrl =
+      https://wa.me/918080882201?text=${encodeURIComponent(text)};
+
+    window.open(whatsappUrl, "_blank");
     setSent(true);
   }
+
   return (
     <form onSubmit={onSubmit} className="form">
-      <label>Your name<input name="name" required autoComplete="name" /></label>
-      <label>Phone number<input name="phone" type="tel" required autoComplete="tel" inputMode="tel" /></label>
-      <label>Area in Mumbai<select name="area" required defaultValue="">
-        <option value="" disabled>Select area</option>
-        {areas.map((a) => <option key={a}>{a}</option>)}<option>Other area</option></select></label>
-      <label>Service needed<select name="service" required defaultValue="">
-        <option value="" disabled>Select service</option>
-        {services.map((s) => <option key={s.slug}>{s.name}</option>)}<option>Not sure</option></select></label>
-      <label>Details (optional)<textarea name="details" rows={3} /></label>
-      <button className="btn btn-primary" type="submit">Request a Home Visit</button>
-      {sent && <p role="status">Your request opened in WhatsApp. Please press send to share it with us.</p>}
+      <label>
+        Your name
+        <input
+          name="name"
+          required
+          autoComplete="name"
+        />
+      </label>
+
+      <label>
+        Phone number
+        <input
+          name="phone"
+          type="tel"
+          required
+          autoComplete="tel"
+          inputMode="tel"
+        />
+      </label>
+
+      <label>
+        Area in Mumbai
+        <select name="area" required defaultValue="">
+          <option value="" disabled>
+            Select area
+          </option>
+
+          {areas.map((area) => (
+            <option key={area} value={area}>
+              {area}
+            </option>
+          ))}
+        </select>
+      </label>
+
+      <label>
+        Service needed
+        <select name="service" required defaultValue="">
+          <option value="" disabled>
+            Select service
+          </option>
+
+          {services.map((service) => (
+            <option key={service} value={service}>
+              {service}
+            </option>
+          ))}
+        </select>
+      </label>
+
+      <label>
+        Details (optional)
+        <textarea
+          name="details"
+          rows={3}
+        />
+      </label>
+
+      <button
+        className="btn btn-primary"
+        type="submit"
+      >
+        Request a Home Visit
+      </button>
+
+      {sent && (
+        <p role="status">
+          Your request opened in WhatsApp. Please press send to share it with us.
+        </p>
+      )}
     </form>
   );
 }
