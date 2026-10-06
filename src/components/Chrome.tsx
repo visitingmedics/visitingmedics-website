@@ -1,0 +1,84 @@
+import Image from "next/image";
+import Link from "next/link";
+import type { ReactNode } from "react";
+import { site, telLink, waLink } from "@/config/site";
+import { services } from "@/data/services";
+import { nav } from "@/lib/seo";
+
+const Logo = () => (
+  <Link href="/" aria-label={`${site.name} home`}>
+    <Image src={site.logo.src} alt={`${site.name} logo`} width={site.logo.width} height={site.logo.height} priority sizes="210px" className="logo" />
+  </Link>
+);
+
+const paths: Record<string, ReactNode> = {
+  call: <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />,
+  whatsapp: <><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22z" /><path d="M9 9.5c.5 2.5 2.5 4.5 5 5l1.2-1.2-1.8-1-.9.7a4 4 0 0 1-1.8-1.8l.7-.9-1-1.8z" /></>,
+  instagram: <><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r=".8" fill="currentColor" /></>,
+  linkedin: <><rect x="3" y="9" width="4" height="12" /><circle cx="5" cy="4.5" r="2" /><path d="M10 9h3.6v1.8c.7-1.2 2-2.1 3.9-2.1 3.3 0 3.5 2.4 3.5 5.2V21h-4v-6c0-1.4-.3-2.5-1.7-2.5S14 13.7 14 15v6h-4z" /></>,
+};
+function Ico({ name, href, label, external }: { name: string; href: string; label: string; external?: boolean }) {
+  return (
+    <a className="ico" href={href} aria-label={label} {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{paths[name]}</svg>
+    </a>
+  );
+}
+
+export function Header() {
+  return (
+    <>
+      <div className="topbar"><div className="container">
+        <span>Doctor home visits and healthcare at home across Mumbai</span>
+        <span><a href={telLink}>Call {site.phone}</a><a href={waLink()}>WhatsApp</a></span>
+      </div></div>
+      <header className="header">
+        <div className="container bar">
+          <Logo />
+          <nav aria-label="Main" className="nav">{nav.map((n) => <Link key={n.href} href={n.href}>{n.name}</Link>)}</nav>
+          <Link className="btn btn-primary hide-m" href="/contact">Book a Home Visit</Link>
+          <details className="menu">
+            <summary aria-label="Menu"><span className="burger" aria-hidden="true"><i /><i /><i /></span></summary>
+            <nav aria-label="Mobile">{nav.map((n) => <Link key={n.href} href={n.href}>{n.name}</Link>)}</nav>
+          </details>
+        </div>
+      </header>
+    </>
+  );
+}
+
+export function Footer() {
+  return (
+    <footer className="footer">
+      <div className="container fgrid">
+        <div>
+          <Logo />
+          <p className="tag">{site.tagline.toUpperCase()}</p>
+          <p>Doctor home visits, nursing, blood tests and home medical procedures across Mumbai.</p>
+          <div className="icons">
+            <Ico name="call" href={telLink} label="Call Visiting Medics" />
+            <Ico name="whatsapp" href={waLink()} label="WhatsApp Visiting Medics" external />
+            {site.socials.Instagram && <Ico name="instagram" href={site.socials.Instagram} label="Visiting Medics on Instagram" external />}
+            {site.socials.LinkedIn && <Ico name="linkedin" href={site.socials.LinkedIn} label="Visiting Medics on LinkedIn" external />}
+          </div>
+        </div>
+        <div><h2>Services</h2><ul className="cols">{services.map((s) => <li key={s.slug}><Link href={`/${s.slug}`}>{s.name}</Link></li>)}</ul></div>
+        <div><h2>Company</h2><ul className="co">
+          <li><Link href="/about">About Us</Link></li><li><Link href="/how-it-works">How It Works</Link></li>
+          <li><Link href="/service-areas">Service Areas</Link></li><li><Link href="/faq">FAQ</Link></li><li><Link href="/contact">Contact</Link></li>
+        </ul></div>
+      </div>
+      <div className="container copy">
+        <span>© {new Date().getFullYear()} {site.name}</span>
+        <span><Link href="/privacy-policy">Privacy Policy</Link> · <Link href="/terms-and-conditions">Terms &amp; Conditions</Link></span>
+      </div>
+    </footer>
+  );
+}
+
+export const StickyCta = () => (
+  <div className="sticky" role="group" aria-label="Quick contact">
+    <a className="btn btn-outline" href={telLink}>Call</a>
+    <a className="btn btn-primary" href={waLink("Hello Visiting Medics, I would like to request a home visit.")}>WhatsApp</a>
+  </div>
+);
