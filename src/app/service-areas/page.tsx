@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { areaGroups } from "@/config/site";
 import { Crumbs, FinalCta } from "@/components/bits";
 import CoverageMap from "@/components/CoverageMap";
 import { meta } from "@/lib/seo";
@@ -10,17 +9,36 @@ export const metadata = meta(
   "/service-areas"
 );
 
-const groupIntro: Record<string, string> = {
-  "South Mumbai":
-    "Doctor home visits, home nursing and elderly care are available in these South Mumbai localities. Visit timing depends on your location and the service needed.",
-  "Western suburbs":
-    "We provide healthcare at home across the western suburbs listed here, including doctor home visits, home nursing and blood test sample collection.",
-  "Northern western suburbs":
-    "Families in the northern western suburbs can request doctor home visits, home nursing and care for elderly or bedridden patients at home.",
-};
-
-const fallbackIntro =
-  "Doctor home visits and home healthcare are available in these localities. Visit timing depends on your location and the service needed.";
+const groups = [
+  {
+    name: "South Mumbai",
+    intro:
+      "Doctor home visits, home nursing and elderly care are available in these South Mumbai localities. Visit timing depends on your location and the service needed.",
+    areas: ["Colaba", "Fort", "Churchgate", "Cuffe Parade", "Malabar Hill", "Breach Candy", "Worli"],
+  },
+  {
+    name: "Western suburbs",
+    intro:
+      "We provide healthcare at home across the western suburbs listed here, including doctor home visits, home nursing and blood test sample collection.",
+    areas: [
+      "Dadar",
+      "Bandra (including Pali Hill)",
+      "Khar",
+      "Santa Cruz",
+      "Vile Parle",
+      "Juhu",
+      "Andheri",
+      "Lokhandwala",
+      "Jogeshwari",
+    ],
+  },
+  {
+    name: "Northern western suburbs",
+    intro:
+      "Families in the northern western suburbs can request doctor home visits, home nursing and care for elderly or bedridden patients at home.",
+    areas: ["Goregaon", "Malad", "Kandivali", "Borivali"],
+  },
+];
 
 const faqs = [
   {
@@ -52,12 +70,10 @@ export default function Areas() {
         <div className="container two">
           <CoverageMap link={false} />
           <div className="grid">
-            {areaGroups.map((g) => (
+            {groups.map((g) => (
               <div className="card" key={g.name}>
                 <h2 style={{ fontSize: "1.15rem" }}>{g.name}</h2>
-                <p style={{ margin: "0.5rem 0 0.8rem" }}>
-                  {groupIntro[g.name] ?? fallbackIntro}
-                </p>
+                <p style={{ margin: "0.5rem 0 0.8rem" }}>{g.intro}</p>
                 <ul className="chips">
                   {g.areas.map((a) => (
                     <li key={a}>{a}</li>
