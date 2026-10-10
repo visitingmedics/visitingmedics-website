@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { areas, getArea, nearbyOf, services, PHONE, WA, SITE } from "../data";
 
-type P = { params: Promise<{ slug: string }> | { slug: string } };
+type P = { params: Promise<{ slug: string }> };
 
 export const dynamicParams = false;
 export function generateStaticParams() {
