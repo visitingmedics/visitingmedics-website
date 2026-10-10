@@ -5,7 +5,6 @@ import { site, areas } from "@/config/site";
 import { Header, Footer, StickyCta } from "@/components/Chrome";
 import { JsonLd } from "@/components/bits";
 import { services } from "@/data/services";
-import AreasAccordion from "./areas/AreasAccordion";
 
 const serif = Fraunces({ subsets: ["latin"], variable: "--font-serif", display: "swap" });
 const sans = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
@@ -47,7 +46,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Header />
         <main id="main">{children}</main>
         <Footer />
-        <AreasAccordion />
         <StickyCta />
         <JsonLd data={graph} />
       </body>
