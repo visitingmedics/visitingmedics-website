@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { site, telLink, waLink } from "@/config/site";
 import { services } from "@/data/services";
 import { nav } from "@/lib/seo";
+import AreasAccordion from "@/app/areas/AreasAccordion";
 
 const Logo = () => (
   <Link href="/" aria-label={`${site.name} home`}>
@@ -72,6 +73,7 @@ export function Footer() {
         <span>© {new Date().getFullYear()} {site.name}</span>
         <span><Link href="/privacy-policy">Privacy Policy</Link> · <Link href="/terms-and-conditions">Terms &amp; Conditions</Link></span>
       </div>
+      <AreasAccordion />
     </footer>
   );
 }
